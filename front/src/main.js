@@ -33,6 +33,10 @@ const store = new Vuex.Store({
             "Restaurants": null,
             "Bars": null,
             "Activités": null
+        },
+        selectedDates: {
+            start: null,
+            end: null
         }
     },
     mutations: {
@@ -80,6 +84,10 @@ const store = new Vuex.Store({
         },
         setActivity(state, { category, activityData }) {
             state.selectedActivities[category] = activityData
+        },
+        setDates(state, { start, end }) {
+            state.selectedDates.start = start
+            state.selectedDates.end = end
         }
     },
     actions: {},
@@ -113,6 +121,9 @@ const store = new Vuex.Store({
         },
         getActivities(state) {
             return state.selectedActivities
+        },
+        getDates(state) {
+            return state.selectedDates
         }
     }
 })
