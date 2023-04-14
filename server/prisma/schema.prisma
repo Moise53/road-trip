@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output = "../node_modules/.prisma/client"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DB_URL")
+}
+
+model User {
+    id       Int     @id @default(autoincrement())
+    name     String?
+    email    String  @unique
+    password String
+    travels  Travel[]
+}
+
+model Travel {
+    id      Int     @id @default(autoincrement())
+    user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    user_id Int
+    destinations Destination[]
+}
+
+model Destination {
+    id      Int     @id @default(autoincrement())
+    start   String
+    end     String
+    travel  Travel  @relation(fields: [travel_id], references: [id], onDelete: Cascade)
+    travel_id Int
+    rank    Int
+    activities Activity[]
+}
+
+model Activity {
+    id      Int     @id @default(autoincrement())
+    name    String
+    address String
+    city    String
+    postcode String
+    destination Destination @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+    destination_id Int
+    type    ActivityType
+    lat    String
+    lon    String
+}
+
+enum ActivityType {
+    accommodations
+    restaurants
+    bars
+    transports
+    events
+}
