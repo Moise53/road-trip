@@ -5,6 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const TravelService_1 = __importDefault(require("../services/TravelService"));
 class TravelController {
+    async createTravel(req, res) {
+        const { data, error, message, statusCode } = await TravelService_1.default.create(req.body);
+        if (error) {
+            res.status(statusCode).json({ error: message });
+            return;
+        }
+        res.status(statusCode).json({ message, data });
+    }
     async getAllTravels(req, res) {
         const { data, error, message, statusCode } = await TravelService_1.default.getAll();
         if (error) {

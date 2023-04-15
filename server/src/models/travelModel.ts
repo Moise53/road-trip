@@ -76,9 +76,6 @@ class TravelModel {
             throw new InternalServerError(e.message)
         }
     }
-
-    
-
 }
 
 export default new TravelModel()
