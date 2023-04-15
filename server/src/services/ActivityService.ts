@@ -30,6 +30,15 @@ class ActivityService {
             return new OrganizedReturn([], true, error.message, error.status).toJson()
         }
     }
+    async getByDestinationId(id: number): Promise<OrganizedReturn> {
+       try {
+            const result: Activity[] = await activityModel.getByDestinationId(id)
+            return new OrganizedReturn(result, false, "Activities retrieved successfully", StatusCodes.OK).toJson()
+       } catch (error: any) {
+            console.error(error)
+            return new OrganizedReturn([], true, error.message, error.status).toJson()
+       }
+    }
     async delete(id: number): Promise<OrganizedReturn> {
         try {
             const result: Activity = await activityModel.delete(id)

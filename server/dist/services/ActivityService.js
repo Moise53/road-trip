@@ -37,6 +37,16 @@ class ActivityService {
             return new index_1.OrganizedReturn([], true, error.message, error.status).toJson();
         }
     }
+    async getByDestinationId(id) {
+        try {
+            const result = await activityModel_1.default.getByDestinationId(id);
+            return new index_1.OrganizedReturn(result, false, "Activities retrieved successfully", statusCode_1.default.OK).toJson();
+        }
+        catch (error) {
+            console.error(error);
+            return new index_1.OrganizedReturn([], true, error.message, error.status).toJson();
+        }
+    }
     async delete(id) {
         try {
             const result = await activityModel_1.default.delete(id);

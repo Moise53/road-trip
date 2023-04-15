@@ -64,6 +64,25 @@ class ActivityModel {
             throw new customErrors_1.InternalServerError(e.message);
         }
     }
+    async getByDestinationId(destination_id) {
+        try {
+            const result = await prisma.activity.findMany({
+                where: {
+                    destination_id: destination_id,
+                },
+            });
+            if (!result) {
+                throw new customErrors_1.NotFoundError('Activity not found');
+            }
+            return result.map((activity) => activity_1.default.fromJson(activity));
+        }
+        catch (e) {
+            if (e.name === 'NotFound') {
+                throw e;
+            }
+            throw new customErrors_1.InternalServerError(e.message);
+        }
+    }
     async delete(id) {
         try {
             const result = await prisma.activity.delete({
@@ -104,25 +123,6 @@ class ActivityModel {
                 throw new customErrors_1.NotFoundError('Activity not found');
             }
             return activity_1.default.fromJson(result);
-        }
-        catch (e) {
-            if (e.name === 'NotFound') {
-                throw e;
-            }
-            throw new customErrors_1.InternalServerError(e.message);
-        }
-    }
-    async getByDestinationId(destination_id) {
-        try {
-            const result = await prisma.activity.findMany({
-                where: {
-                    destination_id: destination_id,
-                },
-            });
-            if (!result) {
-                throw new customErrors_1.NotFoundError('Activity not found');
-            }
-            return result.map((activity) => activity_1.default.fromJson(activity));
         }
         catch (e) {
             if (e.name === 'NotFound') {

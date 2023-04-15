@@ -63,6 +63,27 @@ class ActivityModel {
         }
     }
 
+    async getByDestinationId(destination_id: number): Promise<Activity[]> {
+        try {
+            const result = await prisma.activity.findMany({
+                where: {
+                    destination_id: destination_id,
+                },
+            })
+
+            if (!result) {
+                throw new NotFoundError('Activity not found')
+            }
+
+            return result.map((activity) => Activity.fromJson(activity))
+        } catch (e: any) {
+            if (e.name === 'NotFound') {
+                throw e
+            }
+            throw new InternalServerError(e.message)
+        }
+    }
+
     async delete(id: number): Promise<Activity> {
         try {
             const result = await prisma.activity.delete({
@@ -114,28 +135,6 @@ class ActivityModel {
             throw new InternalServerError(e.message)
         }
     }
-
-    async getByDestinationId(destination_id: number): Promise<Activity[]> {
-        try {
-            const result = await prisma.activity.findMany({
-                where: {
-                    destination_id: destination_id,
-                },
-            })
-
-            if (!result) {
-                throw new NotFoundError('Activity not found')
-            }
-
-            return result.map((activity) => Activity.fromJson(activity))
-        } catch (e: any) {
-            if (e.name === 'NotFound') {
-                throw e
-            }
-            throw new InternalServerError(e.message)
-        }
-    }
-
 }
 
 export default new ActivityModel()

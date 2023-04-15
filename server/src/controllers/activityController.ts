@@ -36,6 +36,17 @@ class ActivityController {
         res.status(statusCode).json({ message, data });
     }
 
+    async getActivitiesByDestinationId(req: Request, res: Response): Promise<void> {
+        const { data, error, message, statusCode } = await ActivityService.getByDestinationId(Number(req.params.id));
+
+        if (error) {
+            res.status(statusCode).json({ error: message });
+            return;
+        }
+
+        res.status(statusCode).json({ message, data });
+    }
+
     async deleteActivity(req: Request, res: Response): Promise<void> {
         const { data, error, message, statusCode } = await ActivityService.delete(Number(req.params.id));
 
