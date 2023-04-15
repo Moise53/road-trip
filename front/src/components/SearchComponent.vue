@@ -8,9 +8,9 @@
               ref="searchInput"
               :items="[]"
               variant="underlined"
-              v-model="searchTextTo"
+              :value="searchTextTo"
               id="search-search"
-              @change="extractCityAndCountry"
+              @input="updateSearchTextTo"
           ></v-text-field>
           <div class="search-add">
             <DatePicker/>
@@ -32,7 +32,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import Filter from "@/components/Filter.vue";
 import DatePicker from "@/components/DatePicker.vue";
@@ -40,7 +39,6 @@ import SearchSVG from "@/assets/Search_Page/SearchSVG.svg"
 import PlusSVG from "@/assets/Search_Page/PlusSVG.svg"
 import Category from "@/components/Category.vue";
 import ResultResearch from "@/components/ResultResearch.vue";
-import {mapState} from "vuex";
 
 export default {
   components: {DatePicker, Filter, Category, ResultResearch},
@@ -86,6 +84,10 @@ export default {
             this.city = city;
             this.country = country;
         },
+        updateSearchTextTo(event) {
+            const newValue = event.target.value;
+            this.$store.commit("setSearchTextTo", newValue)
+        }
     },
     mounted() {
         // Listen if searchTextFrom is updated in store

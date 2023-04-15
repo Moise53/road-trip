@@ -13,13 +13,28 @@
                     <v-slide v-if="category.markers.length > 0" v-for="(result, index2) in category.markers" :key="index2"
                         class="result-category-div">
                         <result-div @click="changeMarkerColor(index, index2)" :title="result.info.name"
-                            :address="result.info.address" :rating="result.info.rating.toLocaleString()" :photo="result.info.photo"
-                            :location="{...result.info.location}" :index="index" :index2="index2" :markers="result" />
+                            :address="result.info.address" :rating="result.info.rating.toLocaleString()"
+                            :photo="result.info.photo" :location="{ ...result.info.location }" :index="index" :index2="index2"
+                            :markers="result" />
                     </v-slide>
                 </v-slide-group>
             </div>
         </v-sheet>
     </div>
+    <v-sheet max-width="56vw" v-for="(category, index) in categories" :key="index" class="result-category">
+        <div v-if="category.visible">
+            {{ category.name }} recommandés dans la région
+            <v-slide-group class="result-category-row" show-arrows="always">
+                <v-slide v-if="category.markers.length > 0" v-for="(result, index2) in category.markers" :key="index2"
+                    class="result-category-div">
+                    <result-div
+                        @click="changeMarkerColor(index, index2, result.info.title, result.info.address, result.info.rating, result.info.photo)"
+                        :title="result.info.title" :address="result.info.address" :rating="result.info.rating"
+                        :photo="result.info.photo" :index="index" :index2="index2" :markers="result" />
+                </v-slide>
+            </v-slide-group>
+        </div>
+    </v-sheet>
 </template>
 
 <script>
@@ -31,28 +46,32 @@ export default {
     components: { ResultDiv },
     props: {
         city: String,
-        country: String
+        country: String,
+        totalResults: String,
     },
     computed: {
         ...mapState({
             categories: state => state.categories,
+            map: state => state.map
         }),
     },
     methods: {
-        changeMarkerColor(index, index2) {
-            for (let i = 0; i < this.categories.length; i++) {
-                for (let j = 0; j < this.categories[i].markers.length; j++) {
-                    this.categories[i].markers[j].markers.setVisible(false)
-                }
-            }
-
-            this.categories[index].markers[index2].markers.setVisible(true)
+        changeMarkerColor(index, index2, title, address, rating, photo) {
+            this.infowindows.close()
+            let result = this.categories[index].markers[index2].markers;
+            const resultName = `<h3>${title}</h3>`;
+            const resultAddress = `<p>${address}</p>`;
+            const resultRating = `<p>${rating}</p>`;
+            const resultPhoto = photo ? `<img src="${photo}" width="50%">` : '';
+            this.infowindows.setContent(resultName + resultAddress + resultRating + resultPhoto);
+            this.infowindows.open(this.map, result)
         }
     },
     data() {
         return {
             isActive: false,
-            totalResults: 0,
+            infowindows: new google.maps.InfoWindow()
+
         };
     }
 };

@@ -7,6 +7,7 @@ const routes = [
     path: "/home",
     name: "Home",
     component: Home,
+    beforeEnter: ifAuthenticated,
   },
   {
     path: "/",
@@ -14,6 +15,14 @@ const routes = [
     component: Auth,
   },
 ];
+
+function ifAuthenticated  (to, from, next)  {
+  if (localStorage.getItem("user")) {
+   next();
+   return;
+ }
+  router.push({  name: 'auth' });
+};
 
 const router = createRouter({
   history: createWebHistory(),

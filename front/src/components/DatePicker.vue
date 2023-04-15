@@ -26,8 +26,8 @@ export default {
     data() {
         return {
             range: {
-                start: new Date(2020, 0, 1),
-                end: new Date(2020, 0, 5)
+                start: null,
+                end: new Date(2020, 9, 16),
             },
         };
     },

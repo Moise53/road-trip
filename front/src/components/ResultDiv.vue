@@ -53,6 +53,7 @@ export default {
     }),
     methods: {
         reserve() {
+            console.log('clicked');
             this.loading = true
             const data = {
                 title: this.title,
@@ -77,6 +78,7 @@ export default {
                 activities: {...activities},
                 dates: {...dates}
             }
+            console.log(dataToSend);
         }
     },
 }
