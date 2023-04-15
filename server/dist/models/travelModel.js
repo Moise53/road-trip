@@ -31,8 +31,16 @@ class TravelModel {
     }
     async getAll() {
         try {
-            const result = await prisma.travel.findMany();
-            return result.map((travel) => travel_1.default.fromJson(travel));
+            const result = await prisma.travel.findMany({
+                include: {
+                    destinations: {
+                        include: {
+                            activities: true
+                        }
+                    }
+                },
+            });
+            return result;
         }
         catch (e) {
             throw new customErrors_1.InternalServerError(e.message);
@@ -44,11 +52,18 @@ class TravelModel {
                 where: {
                     id: id,
                 },
+                include: {
+                    destinations: {
+                        include: {
+                            activities: true
+                        }
+                    }
+                },
             });
             if (!result) {
                 throw new customErrors_1.NotFoundError('Travel not found');
             }
-            return travel_1.default.fromJson(result);
+            return result;
         }
         catch (e) {
             if (e.name === 'NotFound') {

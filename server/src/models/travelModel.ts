@@ -26,20 +26,37 @@ class TravelModel {
         }
     }
 
-    async getAll(): Promise<Travel[]> {
+    async getAll(): Promise<any> {
         try {
-            const result = await prisma.travel.findMany()
-            return result.map((travel) => Travel.fromJson(travel))
+            const result = await prisma.travel.findMany(
+                {
+                    include: {
+                        destinations: {
+                            include: {
+                                activities: true
+                            }
+                        }
+                    },
+                }
+            )
+            return result
         } catch (e: any) {
             throw new InternalServerError(e.message)
         }
     }
 
-    async getById(id: number): Promise<Travel> {
+    async getById(id: number): Promise<any> {
         try {
             const result = await prisma.travel.findUnique({
                 where: {
                     id: id,
+                },
+                include: {
+                    destinations: {
+                        include: {
+                            activities: true
+                        }
+                    }
                 },
             })
 
@@ -47,7 +64,7 @@ class TravelModel {
                 throw new NotFoundError('Travel not found')
             }
 
-            return Travel.fromJson(result)
+            return result
         } catch (e: any) {
             if (e.name === 'NotFound') {
                 throw e
