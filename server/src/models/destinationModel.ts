@@ -30,29 +30,38 @@ class DestinationModel {
     }
 
 
-    async getAll(): Promise<Destination[]> {
+    async getAll(): Promise<any> {
         try {
-            const result = await prisma.destination.findMany()
-            return result.map((destination) => Destination.fromJson(destination))
+            const result = await prisma.destination.findMany(
+                {
+                    include: {
+                        activities: true
+                    }
+                }
+            )
+            return result
         } catch (e: any) {
             throw new InternalServerError(e.message)
         }
     }
 
 
-    async getById(id: number): Promise<Destination> {  
+    async getById(id: number): Promise<any> {
         try {
             const result = await prisma.destination.findUnique({
                 where: {
                     id: id,
                 },
+                include: {
+                    activities: true
+                },
             })
-        
+
             if (!result) {
                 throw new NotFoundError('Destination not found')
             }
 
-            return Destination.fromJson(result)
+            return result
         } catch (e: any) {
             if (e.name === 'NotFound') {
                 throw e
@@ -73,7 +82,7 @@ class DestinationModel {
             throw new InternalServerError(e.message)
         }
     }
-    
+
     async update(id: number, destination: Destination): Promise<Destination> {
         try {
             const result = await prisma.destination.update({
@@ -93,14 +102,17 @@ class DestinationModel {
         }
     }
 
-    async getByTravelId(travel_id: number): Promise<Destination[]> {
+    async getByTravelId(travel_id: number): Promise<any> {
         try {
             const result = await prisma.destination.findMany({
                 where: {
                     travel_id: travel_id,
                 },
+                include: {
+                    activities: true
+                },
             })
-            return result.map((destination) => Destination.fromJson(destination))
+            return result
         } catch (e: any) {
             throw new InternalServerError(e.message)
         }

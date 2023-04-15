@@ -34,6 +34,16 @@ class TravelService {
             return new index_1.OrganizedReturn([], true, error.message, error.status).toJson();
         }
     }
+    async getByUserId(id) {
+        try {
+            const result = await travelModel_1.default.getByUserId(id);
+            return new index_1.OrganizedReturn(result, false, "Travels retrieved successfully", statusCode_1.default.OK).toJson();
+        }
+        catch (error) {
+            console.log(error);
+            return new index_1.OrganizedReturn([], true, error.message, error.status).toJson();
+        }
+    }
     async delete(id) {
         try {
             const result = await travelModel_1.default.delete(id);

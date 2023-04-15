@@ -26,20 +26,37 @@ class TravelModel {
         }
     }
 
-    async getAll(): Promise<Travel[]> {
+    async getAll(): Promise<any> {
         try {
-            const result = await prisma.travel.findMany()
-            return result.map((travel) => Travel.fromJson(travel))
+            const result = await prisma.travel.findMany(
+                {
+                    include: {
+                        destinations: {
+                            include: {
+                                activities: true
+                            }
+                        }
+                    },
+                }
+            )
+            return result
         } catch (e: any) {
             throw new InternalServerError(e.message)
         }
     }
 
-    async getById(id: number): Promise<Travel> {
+    async getById(id: number): Promise<any> {
         try {
             const result = await prisma.travel.findUnique({
                 where: {
                     id: id,
+                },
+                include: {
+                    destinations: {
+                        include: {
+                            activities: true
+                        }
+                    }
                 },
             })
 
@@ -47,8 +64,38 @@ class TravelModel {
                 throw new NotFoundError('Travel not found')
             }
 
-            return Travel.fromJson(result)
+            return result
         } catch (e: any) {
+            if (e.name === 'NotFound') {
+                throw e
+            }
+            throw new InternalServerError(e.message)
+        }
+    }
+
+    async getByUserId(id: number): Promise<any> {
+        try {
+            const result = await prisma.travel.findMany({
+                where: {
+                    user_id: id,
+                },
+                include: {
+                    destinations: {
+                        include: {
+                            activities: true
+                        }
+                    }
+                },
+            })
+
+            if (!result) {
+                throw new NotFoundError('Travel not found')
+            }
+
+            return result
+        } catch (e: any) {
+            console.log(e);
+
             if (e.name === 'NotFound') {
                 throw e
             }
@@ -76,9 +123,6 @@ class TravelModel {
             throw new InternalServerError(e.message)
         }
     }
-
-    
-
 }
 
 export default new TravelModel()

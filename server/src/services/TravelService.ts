@@ -30,6 +30,16 @@ class TravelService {
         }
     }
 
+    async getByUserId(id: number): Promise<OrganizedReturn> {
+        try {
+            const result: [] = await travelModel.getByUserId(id)
+            return new OrganizedReturn(result, false, "Travels retrieved successfully", StatusCodes.OK).toJson()
+        } catch (error: any) {
+            console.log(error);
+            return new OrganizedReturn([], true, error.message, error.status).toJson()
+        }
+    }
+
     async delete(id: number): Promise<OrganizedReturn> {
         try {
             const result: Travel = await travelModel.delete(id)
