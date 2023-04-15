@@ -57,6 +57,33 @@ class TravelModel {
             throw new customErrors_1.InternalServerError(e.message);
         }
     }
+    async getByUserId(id) {
+        try {
+            const result = await prisma.travel.findMany({
+                where: {
+                    user_id: id,
+                },
+                include: {
+                    destinations: {
+                        include: {
+                            activities: true
+                        }
+                    }
+                },
+            });
+            if (!result) {
+                throw new customErrors_1.NotFoundError('Travel not found');
+            }
+            return result;
+        }
+        catch (e) {
+            console.log(e);
+            if (e.name === 'NotFound') {
+                throw e;
+            }
+            throw new customErrors_1.InternalServerError(e.message);
+        }
+    }
     async delete(id) {
         try {
             const result = await prisma.travel.delete({

@@ -37,6 +37,17 @@ class TravelController {
         res.status(statusCode).json({ message, data });
     }
 
+    async getTravelsByUserId(req: Request, res: Response): Promise<void> {
+        const { data, error, message, statusCode } = await TravelService.getByUserId(Number(req.user.id));
+
+        if (error) {
+            res.status(statusCode).json({ error: message });
+            return;
+        }
+
+        res.status(statusCode).json({ message, data });
+    }
+
     async deleteTravel(req: Request, res: Response): Promise<void> {
         const { data, error, message, statusCode } = await TravelService.delete(Number(req.params.id));
 

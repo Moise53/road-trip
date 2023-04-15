@@ -8,6 +8,7 @@ const travelController_1 = __importDefault(require("../controllers/travelControl
 const travelRouter = express_1.default.Router();
 travelRouter.post('/', travelController_1.default.createTravel);
 travelRouter.get('/', travelController_1.default.getAllTravels);
+travelRouter.get('/mytravels', travelController_1.default.getTravelsByUserId);
 travelRouter.get('/:id', travelController_1.default.getTravelById);
 travelRouter.delete('/:id', travelController_1.default.deleteTravel);
 exports.default = travelRouter;

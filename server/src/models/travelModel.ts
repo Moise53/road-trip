@@ -56,6 +56,36 @@ class TravelModel {
         }
     }
 
+    async getByUserId(id: number): Promise<any> {
+        try {
+            const result = await prisma.travel.findMany({
+                where: {
+                    user_id: id,
+                },
+                include: {
+                    destinations: {
+                        include: {
+                            activities: true
+                        }
+                    }
+                },
+            })
+
+            if (!result) {
+                throw new NotFoundError('Travel not found')
+            }
+
+            return result
+        } catch (e: any) {
+            console.log(e);
+
+            if (e.name === 'NotFound') {
+                throw e
+            }
+            throw new InternalServerError(e.message)
+        }
+    }
+
     async delete(id: number): Promise<Travel> {
         try {
             const result = await prisma.travel.delete({

@@ -25,7 +25,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
-app.use('/travels', travelRouter);
+app.use('/travels', Auth, travelRouter);
 app.use('/destinations', destinationRouter);
 app.use('/activities', activityRouter);
 app.use('/users', Auth, userRouter);

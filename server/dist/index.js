@@ -15,7 +15,7 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.use('/travels', travelRouter_1.default);
+app.use('/travels', middlewares_1.Auth, travelRouter_1.default);
 app.use('/destinations', destinationRouter_1.default);
 app.use('/activities', activityRouter_1.default);
 app.use('/users', middlewares_1.Auth, routes_1.userRouter);
