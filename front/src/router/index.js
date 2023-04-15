@@ -1,12 +1,19 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import Auth from "../views/Auth.vue";
+import ConfirmationPage from "../views/ConfirmationPage.vue";
 
 const routes = [
   {
     path: "/home",
     name: "Home",
     component: Home,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: "/confirmation",
+    name: "Confirlation",
+    component: ConfirmationPage,
     beforeEnter: ifAuthenticated,
   },
   {
