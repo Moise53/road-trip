@@ -56,7 +56,6 @@
                     margin-left: auto;
                     margin-right: auto;
                     margin-bottom: 20%;" color="hsl(131, 100%, 82%)"
-                    v-bind="props"
                     @click="handleTravelConfirmation">
                     Valider mon trip
                 </v-btn>
@@ -140,7 +139,6 @@ export default {
             }
 
             // Create Activities
-            console.log(activities);
             for (const activity in activities) {
                 const { title, address, location } = activities[activity];
                 const type = activity == "Hotels" ? "accommodations" : activity == "Activités" ? "events" : activity.toLocaleLowerCase() ;
@@ -153,6 +151,10 @@ export default {
             }
 
             this.dialog = true;
+
+            setTimeout(() => {
+                this.$router.push({ name: 'History' });
+            }, 2000);
         }
     },
     data() {
