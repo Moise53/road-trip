@@ -78,7 +78,7 @@ import SearchComponent from '/src/components/SearchComponent.vue'
 import GoogleMapComponent from "@/components/GoogleMapComponent.vue";
 import FromComponent from "@/components/FromComponent.vue";
 import { mapState } from 'vuex';
-import { createTravel } from "@/services/Travel.js";
+import { createTravel, createDestination, createActivity } from "@/services/Travel.js";
 
 export default {
     name: 'ConfirmationPage',
@@ -125,8 +125,34 @@ export default {
             };
 
             // Create Travel
-            const { error, data } = await createTravel(JSON.parse(localStorage.getItem("user")).id);
-            console.log(data);
+            const { error: travelError, data: travelData } = await createTravel(JSON.parse(localStorage.getItem("user")).id);
+
+            if (travelError) {
+                console.log(travelError);
+                return;
+            }
+            // Create Destination
+            const { error: destinationError, data: destinationData } = await createDestination(searchTextFrom, searchTextTo, travelData.travel.id);
+
+            if (destinationError) {
+                console.log(destinationError);
+                return;
+            }
+
+            // Create Activities
+            console.log(activities);
+            for (const activity in activities) {
+                const { title, address, location } = activities[activity];
+                const type = activity == "Hotels" ? "accommodations" : activity == "Activités" ? "events" : activity.toLocaleLowerCase() ;
+                const { error: activityError, data: activityData } = await createActivity(destinationData.destination.id, title, address, '', '', type, location.lat.toString(), location.lng.toString());
+
+                if (activityError) {
+                    console.log(activityError);
+                    return;
+                }
+            }
+
+            this.dialog = true;
         }
     },
     data() {

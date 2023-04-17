@@ -81,7 +81,7 @@ export async function getDestination(_id) {
 
 export async function createActivity(destination_id, name, address, city, postcode, type, lat, lon) {
     try {
-        const response = await axios.post(`${url}/activities`, { name, destination_id: Number(destination_id) }, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}` } })
+        const response = await axios.post(`${url}/activities`, { name, destination_id: Number(destination_id), address, city, postcode, type, lat: lat, lon }, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}` } })
         const { message, data } = response.data;
         return {error: false, data: {message, activity: data}}
     } catch (error) {
