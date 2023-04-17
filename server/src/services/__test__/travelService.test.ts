@@ -6,18 +6,22 @@ import UserService from '../UserService';
 let travelId: number;
 
 describe('travel module', () => {
-    test('user created', async () => {
+    test('travel created', async () => {
         const user: User = User.fromJson({
             id: null,
-            email: 'mock@test.com',
+            email: 'mock2@test.com',
             password: 'mockpassword',
             name: 'mockname'
         });
-    const {data, error, message, statusCode} = await UserService.signup(user);
+        const {data: userData, error: userError, message: userMessage, statusCode: userStatusCode} = await UserService.signup(user);
 
-    const userId = data.id;
+        expect(userError).toEqual(false);
+        expect(userStatusCode).toEqual(201);
+        expect(userMessage).toEqual('User created successfully');
+        expect(userData.email).toEqual(user.email);
 
-    test('travel created', async () => {
+
+        const userId = userData.id;
 
 
         const travel: Travel = {
@@ -34,7 +38,6 @@ describe('travel module', () => {
         travelId = data.id;
 
     });
-});
 
     test('travel retrieved', async () => {
         const { data, error, message, statusCode } = await TravelService.getAll();
