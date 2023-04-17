@@ -44,10 +44,10 @@ export default {
     },
     methods: {
         menuActionClick(action) {
-            // if (action === "logout") {
-            //     localStorage.removeItem('user');
-            //     this.$router.push('/');
-            // }
+            if (action === "logout") {
+                localStorage.removeItem('user');
+                this.$router.push('/');
+            }
             if (action === "history") {
                 this.$router.push('/history');
             }
