@@ -1,4 +1,4 @@
-# Epic Road Trip !
+# Epic Road Trip
 
 
 ## Lancer le projet
