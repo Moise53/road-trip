@@ -124,7 +124,7 @@ export default {
                 return;
             }
             // Create Destination
-            const { error: destinationError, data: destinationData } = await createDestination(searchTextFrom, searchTextTo, dates.start, dates.end,travelData.travel.id);
+            const { error: destinationError, data: destinationData } = await createDestination(searchTextFrom, searchTextTo, dates.start, dates.end, travelData.travel.id);
 
             if (destinationError) {
                 console.log(destinationError);
@@ -133,9 +133,9 @@ export default {
 
             // Create Activities
             for (const activity in activities) {
-                const { title, address, location } = activities[activity];
+                const { title, address, location, rating, photo } = activities[activity];
                 const type = activity == "Hotels" ? "accommodations" : activity == "Activités" ? "events" : activity.toLocaleLowerCase() ;
-                const { error: activityError, data: activityData } = await createActivity(destinationData.destination.id, title, address, '', '', type, location.lat.toString(), location.lng.toString());
+                const { error: activityError, data: activityData } = await createActivity(destinationData.destination.id, title, address, photo, rating.toString(), type, location.lat.toString(), location.lng.toString());
 
                 if (activityError) {
                     console.log(activityError);
@@ -145,9 +145,9 @@ export default {
 
             this.dialog = true;
 
-            setTimeout(() => {
-                this.$router.push({ name: 'History' });
-            }, 2000);
+            // setTimeout(() => {
+            //     this.$router.push({ name: 'History' });
+            // }, 2000);
         }
     },
     data() {

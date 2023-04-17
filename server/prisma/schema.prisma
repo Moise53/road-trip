@@ -42,7 +42,7 @@ model Activity {
     id      Int     @id @default(autoincrement())
     name    String
     address String
-    image_url String
+    image_url String @db.VarChar(500)
     rating String
     destination Destination @relation(fields: [destination_id], references: [id], onDelete: Cascade)
     destination_id Int
