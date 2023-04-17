@@ -9,18 +9,18 @@
             <div>
                 <h1 class="page-title">Vos derniers itinéraires</h1>
             </div>
-            <div class="d-flex align-center flex-column" v-for="(item, index) in items" :on-click="ItineraryDetails">
+            <div class="d-flex align-center flex-column" v-for="(item, index) in trips" @click="ItineraryDetails(item)">
                 <v-card color="white" width="70%" style="border-radius: 40px; margin-bottom: 3%">
                     <div style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center;">
                         <div style="display: flex; flex-direction: column; text-align: center;">
-                            <p class="city">Paris</p>
-                            <p class="country">France</p>
+                            <p class="city">{{item.start}}</p>
+                            <p class="country">{{item.start}}</p>
                             <p class="date">19/04/2023</p>
                         </div>
                         <img src="../assets/animation/flight.gif" class="animation" />
                         <div style="display: flex; flex-direction: column; text-align: center;">
-                            <p class="city">Athène</p>
-                            <p class="country">Grèce</p>
+                            <p class="city">{{item.end}}</p>
+                            <p class="country">{{item.end}}</p>
                             <p class="date">23/04/2023</p>
                         </div>
                         <!-- <p>{{cardAnimation[index]}}</p> -->
@@ -34,7 +34,7 @@
             <div>
                 <h1 class="page-title">Votre voyage du 19/04/2023</h1>
             </div>
-            <div class="d-flex align-center flex-column" v-for="(item, index) in items">
+            <div class="d-flex align-center flex-column" v-for="(item, index) in selectedTrip.activities">
                 <v-card color="white" width="70%" :title="cardTitle[index]" subtitle="Du 15/04/2023 au 23/04/2023"
                     style="border-radius: 40px; margin-bottom: 3%">
                     <div style="display: flex; flex-direction: row;">
@@ -48,13 +48,13 @@
                                         indeterminate></v-progress-linear>
                                 </template>
 
-                                <v-img cover height="100" :src=photo></v-img>
+                                <v-img cover height="100" :src=item.image></v-img>
 
                                 <v-card-item>
-                                    <v-card-title class="result-card-title">{{ this.title }}</v-card-title>
+                                    <v-card-title class="result-card-title">{{ item.name }}</v-card-title>
 
                                     <v-card-subtitle>
-                                        <span class="result-card-localization">{{ this.address }}</span>
+                                        <span class="result-card-localization">{{ item.address }}</span>
 
                                         <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
                                     </v-card-subtitle>
@@ -62,7 +62,7 @@
 
                                 <v-card-text>
                                     <v-row align="center" class="mx-0">
-                                        <v-rating :model-value=this.rating color="amber" density="compact"
+                                        <v-rating :model-value=item.rate color="amber" density="compact"
                                             half-increments readonly size="small"></v-rating>
                                         <div class="text-grey ms-4">
                                             {{ this.rating }}
@@ -79,12 +79,15 @@
         </div>
     </div>
 </template>
+
+
 <script>
 import Navbar from '/src/components/Navbar.vue'
 import SearchComponent from '/src/components/SearchComponent.vue'
 import GoogleMapComponent from "@/components/GoogleMapComponent.vue";
 import FromComponent from "@/components/FromComponent.vue";
 import { mapState } from 'vuex'
+import { getTravels } from '@/services/Travel.js';
 
 export default {
     name: 'HistoryPage',
@@ -94,6 +97,13 @@ export default {
         GoogleMapComponent,
         FromComponent
     },
+     async created() {
+        console.log("icici")
+          var res = await getTravels();
+          this.trips = res.data.travels[0].destinations
+          //console.log(this.trips.data.travels[0].destinations[0].start)
+          console.log(this.trips)
+        },
     computed: {
         ...mapState({
             categories: state => state.categories,
@@ -103,6 +113,7 @@ export default {
         ItineraryDetails(item) {
             this.details = true
             this.selectedTrip = item
+            console.log(item)
         },
     },
     data() {
@@ -114,7 +125,8 @@ export default {
             userName: JSON.parse(localStorage.getItem("user")).name,
             dialog: false,
             details: false,
-            selectedTrip: null, 
+            selectedTrip: null,
+            trips: null 
         };
     },
 };
@@ -170,7 +182,6 @@ export default {
     font-size: 4rem;
     margin-bottom: 5%;
 }
-
 
 .searchpage-left {
     flex: 1;
