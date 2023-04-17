@@ -116,13 +116,6 @@ export default {
             const activities = this.$store.getters.getActivities;
             const dates = this.$store.getters.getDates;
 
-            const dataToSend = {
-                searchTextTo,
-                searchTextFrom,
-                activities,
-                dates
-            };
-
             // Create Travel
             const { error: travelError, data: travelData } = await createTravel(JSON.parse(localStorage.getItem("user")).id);
 
@@ -131,7 +124,7 @@ export default {
                 return;
             }
             // Create Destination
-            const { error: destinationError, data: destinationData } = await createDestination(searchTextFrom, searchTextTo, travelData.travel.id);
+            const { error: destinationError, data: destinationData } = await createDestination(searchTextFrom, searchTextTo, dates.start, dates.end,travelData.travel.id);
 
             if (destinationError) {
                 console.log(destinationError);
