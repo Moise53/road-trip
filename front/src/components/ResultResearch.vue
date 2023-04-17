@@ -21,20 +21,6 @@
             </div>
         </v-sheet>
     </div>
-    <v-sheet max-width="56vw" v-for="(category, index) in categories" :key="index" class="result-category">
-        <div v-if="category.visible">
-            {{ category.name }} recommandés dans la région
-            <v-slide-group class="result-category-row" show-arrows="always">
-                <v-slide v-if="category.markers.length > 0" v-for="(result, index2) in category.markers" :key="index2"
-                    class="result-category-div">
-                    <result-div
-                        @click="changeMarkerColor(index, index2, result.info.title, result.info.address, result.info.rating, result.info.photo)"
-                        :title="result.info.title" :address="result.info.address" :rating="result.info.rating.toLocaleString()"
-                        :photo="result.info.photo" :index="index" :index2="index2" :markers="result" />
-                </v-slide>
-            </v-slide-group>
-        </div>
-    </v-sheet>
 </template>
 
 <script>

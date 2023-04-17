@@ -71,51 +71,43 @@ export default {
         handleValidate() {
            // Vérifier si le store est complet
             const searchTextTo = this.$store.getters.getSearchTextTo;
-            if (searchTextTo === null) {
-                console.log("searchTextTo is null");
-                return;
-            }
-
             const searchTextFrom = this.$store.getters.getSearchTextFrom;
-            if (searchTextFrom === null) {
-                console.log("searchTextFrom is null");
-                return;
-            }
-
             const activities = this.$store.getters.getActivities;
-            if (activities.Hotels === null) {
-                console.log("Hotels is null");
-                return;
+            const dates = this.$store.getters.getDates;
+            let causes = [];
+
+            if (searchTextTo === null) {
+                causes.push("searchTextTo is null");
             }
-            if (activities.Restaurants === null) {
-                console.log("Restaurants is null");
-                return;
-            }
-            if (activities.Bars === null) {
-                console.log("Bars is null");
-                return;
-            }
-            if (activities.Activités === null) {
-                console.log("Activités is null");
-                return;
+            if (searchTextFrom === null) {
+                causes.push("searchTextFrom is null");
             }
 
-            const dates = this.$store.getters.getDates;
-            if (dates.startDate === null) {
-                console.log("startDate is null");
-                return;
+            for (const activity of Object.entries(activities)) {
+                if (activity[1] === null) {
+                    causes.push(`${activity[0]} is null`);
+                }
             }
-            if (dates.endDate === null) {
-                console.log("endDate is null");
-                return;
+
+            if (dates.start === null) {
+                causes.push("startDate is null");
+            }
+            if (dates.end === null) {
+                causes.push("endDate is null");
             }
 
             // Envoyer les données au serveur
-            const dataToSend = {
-                activities: {...activities},
-                dates: {...dates}
+            if (causes.length === 0) {
+                const dataToSend = {
+                    searchTextTo,
+                    searchTextFrom,
+                    activities: {...activities},
+                    dates: {...dates}
+                }
+                this.$router.push('/confirmation');
+            } else {
+                console.log(causes);
             }
-            console.log(dataToSend);
         },
         extractCityAndCountry() {
             // La chaîne de recherche doit être analysée pour extraire la ville et le pays
