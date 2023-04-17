@@ -30,6 +30,10 @@ model Destination {
     id      Int     @id @default(autoincrement())
     start   String
     end     String
+    start_date String
+    image_url String
+    rating String
+    end_date String
     travel  Travel  @relation(fields: [travel_id], references: [id], onDelete: Cascade)
     travel_id Int
     rank    Int
