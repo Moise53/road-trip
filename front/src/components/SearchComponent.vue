@@ -16,13 +16,12 @@
             <DatePicker/>
           </div>
         </div>
-        <div
-            class="search-plus"
-            :class="{ active: isActive }"
-            @click="isActive = !isActive"
+        <v-btn
+            class="validate-btn"
+            @click="handleValidate"
         >
-          <img :src="PlusSVG" class="plus-icon" alt="Plus Icon"/>
-        </div>
+            Valider
+        </v-btn>
       </div>
       <category :categories="categories"/>
       <result-research
@@ -55,10 +54,9 @@ export default {
   },
   data() {
     return {
-        isActive: false,
         city: '',
         country: '',
-        totalResults: 0,
+        totalResults: '0',
         searchTextTo: ''
     };
   },
@@ -69,6 +67,55 @@ export default {
 
             // Extraire la ville et le pays
             this.extractCityAndCountry();
+        },
+        handleValidate() {
+           // Vérifier si le store est complet
+            const searchTextTo = this.$store.getters.getSearchTextTo;
+            if (searchTextTo === null) {
+                console.log("searchTextTo is null");
+                return;
+            }
+
+            const searchTextFrom = this.$store.getters.getSearchTextFrom;
+            if (searchTextFrom === null) {
+                console.log("searchTextFrom is null");
+                return;
+            }
+
+            const activities = this.$store.getters.getActivities;
+            if (activities.Hotels === null) {
+                console.log("Hotels is null");
+                return;
+            }
+            if (activities.Restaurants === null) {
+                console.log("Restaurants is null");
+                return;
+            }
+            if (activities.Bars === null) {
+                console.log("Bars is null");
+                return;
+            }
+            if (activities.Activités === null) {
+                console.log("Activités is null");
+                return;
+            }
+
+            const dates = this.$store.getters.getDates;
+            if (dates.startDate === null) {
+                console.log("startDate is null");
+                return;
+            }
+            if (dates.endDate === null) {
+                console.log("endDate is null");
+                return;
+            }
+
+            // Envoyer les données au serveur
+            const dataToSend = {
+                activities: {...activities},
+                dates: {...dates}
+            }
+            console.log(dataToSend);
         },
         extractCityAndCountry() {
             // La chaîne de recherche doit être analysée pour extraire la ville et le pays
@@ -183,5 +230,20 @@ export default {
 .plus-icon {
   max-width: 100%;
   max-height: 100%;
+}
+
+.validate-btn {
+  background-color: #164465;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 100%;
+  text-align: center;
+  border-radius: 90px;
+  padding: 10px 20px;
+  margin: 10px;
+  transition: background-color 0.2s, opacity 0.2s;
 }
 </style>

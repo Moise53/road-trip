@@ -29,7 +29,7 @@
                     class="result-category-div">
                     <result-div
                         @click="changeMarkerColor(index, index2, result.info.title, result.info.address, result.info.rating, result.info.photo)"
-                        :title="result.info.title" :address="result.info.address" :rating="result.info.rating"
+                        :title="result.info.title" :address="result.info.address" :rating="result.info.rating.toLocaleString()"
                         :photo="result.info.photo" :index="index" :index2="index2" :markers="result" />
                 </v-slide>
             </v-slide-group>
