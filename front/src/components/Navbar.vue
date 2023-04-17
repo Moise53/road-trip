@@ -28,7 +28,7 @@ export default {
     data: () => ({
         items: [
             { title: 'History',  action: 'history'},
-            { title: 'Sign Out', action: 'logout' }
+            { title: 'Log Out', action: 'logout' }
             ,
         ],
     }),
