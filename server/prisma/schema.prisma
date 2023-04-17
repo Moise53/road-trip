@@ -31,8 +31,6 @@ model Destination {
     start   String
     end     String
     start_date String
-    image_url String
-    rating String
     end_date String
     travel  Travel  @relation(fields: [travel_id], references: [id], onDelete: Cascade)
     travel_id Int
@@ -44,8 +42,8 @@ model Activity {
     id      Int     @id @default(autoincrement())
     name    String
     address String
-    city    String
-    postcode String
+    image_url String
+    rating String
     destination Destination @relation(fields: [destination_id], references: [id], onDelete: Cascade)
     destination_id Int
     type    ActivityType
