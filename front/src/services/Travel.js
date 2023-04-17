@@ -46,9 +46,9 @@ export async function getTravelByUser(user_id) {
     }
 }
 
-export async function createDestination(start, end, travel_id) {
+export async function createDestination(start, end, start_date, end_date, travel_id) {
     try {
-        const response = await axios.post(`${url}/destinations`, { start, end, travel_id: Number(travel_id), rank: 1 }, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}` } })
+        const response = await axios.post(`${url}/destinations`, { start, end, start_date, end_date, travel_id: Number(travel_id), rank: 1 }, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}` } })
         const { message, data } = response.data;
         return {error: false, data: {message, destination: data}}
     } catch (error) {
@@ -79,9 +79,9 @@ export async function getDestination(_id) {
     }
 }
 
-export async function createActivity(destination_id, name, address, city, postcode, type, lat, lon) {
+export async function createActivity(destination_id, name, address, image_url, rating, type, lat, lon) {
     try {
-        const response = await axios.post(`${url}/activities`, { name, destination_id: Number(destination_id), address, city, postcode, type, lat: lat, lon }, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}` } })
+        const response = await axios.post(`${url}/activities`, { name, destination_id: Number(destination_id), address, image_url, rating, type, lat, lon }, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}` } })
         const { message, data } = response.data;
         return {error: false, data: {message, activity: data}}
     } catch (error) {

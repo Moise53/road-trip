@@ -16,8 +16,8 @@ class ActivityModel {
                 data: {
                     name: activity.name,
                     address: activity.address,
-                    city: activity.city,
-                    postcode: activity.postcode,
+                    image_url: activity.image_url,
+                    rating: activity.rating,
                     destination_id: Number(activity.destination_id),
                     type: client_1.ActivityType[activity.type],
                     lat: activity.lat,
@@ -111,8 +111,8 @@ class ActivityModel {
                 data: {
                     name: activity.name,
                     address: activity.address,
-                    city: activity.city,
-                    postcode: activity.postcode,
+                    image_url: activity.image_url,
+                    rating: activity.rating,
                     destination_id: Number(activity.destination_id),
                     type: client_1.ActivityType[activity.type],
                     lat: activity.lat,

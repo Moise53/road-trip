@@ -13,6 +13,8 @@ class DestinationModel {
                 data: {
                     start: destination.start,
                     end: destination.end,
+                    start_date: destination.start_date,
+                    end_date: destination.end_date,
                     travel_id: Number(destination.travel_id),
                     rank: destination.rank,
                 },
@@ -92,6 +94,8 @@ class DestinationModel {
                 data: {
                     start: destination.start,
                     end: destination.end,
+                    start_date: destination.start_date,
+                    end_date: destination.end_date,
                     travel_id: Number(destination.travel_id),
                     rank: destination.rank,
                 },
