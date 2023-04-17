@@ -70,15 +70,6 @@ export default {
             setTimeout(() => {
                 this.loading = false
             }, 1000)
-
-            const activities = this.$store.getters.getActivities;
-            const dates = this.$store.getters.getDates;
-
-            const dataToSend = {
-                activities: {...activities},
-                dates: {...dates}
-            }
-            console.log(dataToSend);
         }
     },
 }

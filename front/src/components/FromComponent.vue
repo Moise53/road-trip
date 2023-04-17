@@ -36,9 +36,9 @@ export default {
         });
     },
     computed: {
-        ...mapState({
-            searchTextFrom: state => state.searchTextFrom,
-        }),
+        // ...mapState({
+        //     searchTextFrom: state => state.searchTextFrom,
+        // }),
     },
 }
 </script>

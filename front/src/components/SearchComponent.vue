@@ -16,13 +16,12 @@
             <DatePicker/>
           </div>
         </div>
-        <div
-            class="search-plus"
-            :class="{ active: isActive }"
-            @click="isActive = !isActive"
+        <v-btn
+            class="validate-btn"
+            @click="handleValidate"
         >
-          <img :src="PlusSVG" class="plus-icon" alt="Plus Icon"/>
-        </div>
+            Valider
+        </v-btn>
       </div>
       <category :categories="categories"/>
       <result-research
@@ -55,10 +54,9 @@ export default {
   },
   data() {
     return {
-        isActive: false,
         city: '',
         country: '',
-        totalResults: 0,
+        totalResults: '0',
         searchTextTo: ''
     };
   },
@@ -69,6 +67,47 @@ export default {
 
             // Extraire la ville et le pays
             this.extractCityAndCountry();
+        },
+        handleValidate() {
+           // Vérifier si le store est complet
+            const searchTextTo = this.$store.getters.getSearchTextTo;
+            const searchTextFrom = this.$store.getters.getSearchTextFrom;
+            const activities = this.$store.getters.getActivities;
+            const dates = this.$store.getters.getDates;
+            let causes = [];
+
+            if (searchTextTo === null) {
+                causes.push("searchTextTo is null");
+            }
+            if (searchTextFrom === null) {
+                causes.push("searchTextFrom is null");
+            }
+
+            for (const activity of Object.entries(activities)) {
+                if (activity[1] === null) {
+                    causes.push(`${activity[0]} is null`);
+                }
+            }
+
+            if (dates.start === null) {
+                causes.push("startDate is null");
+            }
+            if (dates.end === null) {
+                causes.push("endDate is null");
+            }
+
+            // Envoyer les données au serveur
+            if (causes.length === 0) {
+                const dataToSend = {
+                    searchTextTo,
+                    searchTextFrom,
+                    activities: {...activities},
+                    dates: {...dates}
+                }
+                this.$router.push('/confirmation');
+            } else {
+                console.log(causes);
+            }
         },
         extractCityAndCountry() {
             // La chaîne de recherche doit être analysée pour extraire la ville et le pays
@@ -183,5 +222,20 @@ export default {
 .plus-icon {
   max-width: 100%;
   max-height: 100%;
+}
+
+.validate-btn {
+  background-color: #164465;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 100%;
+  text-align: center;
+  border-radius: 90px;
+  padding: 10px 20px;
+  margin: 10px;
+  transition: background-color 0.2s, opacity 0.2s;
 }
 </style>

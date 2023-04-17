@@ -119,6 +119,12 @@ const store = new Vuex.Store({
             }
             return total
         },
+        getSearchTextFrom(state) {
+            return state.searchTextFrom
+        },
+        getSearchTextTo(state) {
+            return state.searchTextTo
+        },
         getActivities(state) {
             return state.selectedActivities
         },
