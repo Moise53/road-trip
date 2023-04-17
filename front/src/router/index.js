@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import Auth from "../views/Auth.vue";
 import ConfirmationPage from "../views/ConfirmationPage.vue";
+import HistoryPage from "../views/HistoryPage.vue";
 
 const routes = [
   {
@@ -12,8 +13,14 @@ const routes = [
   },
   {
     path: "/confirmation",
-    name: "Confirlation",
+    name: "Confirmation",
     component: ConfirmationPage,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: "/history",
+    name: "History",
+    component: HistoryPage,
     beforeEnter: ifAuthenticated,
   },
   {
