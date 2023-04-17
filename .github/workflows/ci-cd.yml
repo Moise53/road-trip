@@ -27,7 +27,6 @@ jobs:
       uses: easingthemes/ssh-deploy@v2.1.7
       with:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
         REMOTE_HOST: ec2-107-20-101-79.compute-1.amazonaws.com
         REMOTE_USER: ubuntu
         TARGET: /home/ubuntu
