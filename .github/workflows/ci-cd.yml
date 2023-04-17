@@ -32,6 +32,4 @@ jobs:
         username: ubuntu
         remote_path: /home/ubuntu
         local_path: ./server
-        script: |
-          cd /home/ubuntu
-          pm2 restart ecosystem.config.js
+        script: cd /home/ubuntu
