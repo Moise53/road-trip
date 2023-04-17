@@ -81,7 +81,7 @@ export default {
                 console.log(res.data);
                 this.error = res.data;
             } else {
-                localStorage.setItem("user", JSON.stringify({ 'token': res.data.token, 'name': res.data.user.name }));
+                localStorage.setItem("user", JSON.stringify({ 'token': res.data.token, 'name': res.data.user.name, 'id': res.data.user.id }));
                 this.$router.push('/home');
             }
         },

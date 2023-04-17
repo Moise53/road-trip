@@ -50,10 +50,14 @@
                         </div>
                     </v-card>
                 </div>
-                <v-btn rounded="lg" style="display: block;
+                <v-btn
+                    rounded="lg"
+                    style="display: block;
                     margin-left: auto;
                     margin-right: auto;
-                    margin-bottom: 20%;" color="hsl(131, 100%, 82%)" v-bind="props">
+                    margin-bottom: 20%;" color="hsl(131, 100%, 82%)"
+                    v-bind="props"
+                    @click="handleTravelConfirmation">
                     Valider mon trip
                 </v-btn>
             </div>
@@ -73,7 +77,8 @@ import Navbar from '/src/components/Navbar.vue'
 import SearchComponent from '/src/components/SearchComponent.vue'
 import GoogleMapComponent from "@/components/GoogleMapComponent.vue";
 import FromComponent from "@/components/FromComponent.vue";
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+import { createTravel } from "@/services/Travel.js";
 
 export default {
     name: 'ConfirmationPage',
@@ -104,6 +109,25 @@ export default {
         this.address = Object.entries(activities).map(([key, value]) => value.address);
         this.ratings = Object.entries(activities).map(([key, value]) => value.rating);
         this.photos = Object.entries(activities).map(([key, value]) => value.photo);
+    },
+    methods: {
+        async handleTravelConfirmation() {
+            const searchTextTo = this.$store.getters.getSearchTextTo;
+            const searchTextFrom = this.$store.getters.getSearchTextFrom;
+            const activities = this.$store.getters.getActivities;
+            const dates = this.$store.getters.getDates;
+
+            const dataToSend = {
+                searchTextTo,
+                searchTextFrom,
+                activities,
+                dates
+            };
+
+            // Create Travel
+            const { error, data } = await createTravel(JSON.parse(localStorage.getItem("user")).id);
+            console.log(data);
+        }
     },
     data() {
         return {
