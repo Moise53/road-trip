@@ -7,7 +7,8 @@
     "dev": "tsc && node ./dist/index.js",
     "start": "jest && tsc && node ./dist/index.js",
     "test": "jest --setupFiles dotenv/config",
-    "db:reset": "npx prisma migrate reset --force"
+    "db:reset": "npx prisma migrate reset --force",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
