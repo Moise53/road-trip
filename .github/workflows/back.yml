@@ -41,4 +41,4 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ec2-54-158-69-142.compute-1.amazonaws.com
       - name: Build and Run App
-        run: ssh staging 'cd /home/ubuntu/app/backend/server; npm install; prisma generate; npm run dev'
+        run: ssh staging 'cd /home/ubuntu/app/backend/server; npm install; npx prisma generate; npm run dev'
