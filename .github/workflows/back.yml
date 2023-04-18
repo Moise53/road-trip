@@ -1,4 +1,4 @@
-name: Node Github CI to Deploy on AWS Server
+name: Node Github CI to Deploy Back on AWS Server
 
 on:
   push:
@@ -41,4 +41,4 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ec2-107-20-101-79.compute-1.amazonaws.com
       - name: Build and Run App
-        run: ssh staging 'cd /home/ubuntu/app/backend/server; npm install; npx prisma generate; npm run dev'
+        run: ssh staging 'cd /home/ubuntu/app/backend/server; npm install; prisma generate; npm run dev'
