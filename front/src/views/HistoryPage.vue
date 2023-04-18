@@ -32,10 +32,10 @@
 
         <div  v-if="details">
             <div>
-                <h1 class="page-title">Votre voyage du 19/04/2023</h1>
+                <h1 class="page-title">Votre voyage du {{  new Date(selectedTrip.start_date).toLocaleDateString()}} au {{new Date(selectedTrip.end_date).toLocaleDateString()}}</h1>
             </div>
             <div class="d-flex align-center flex-column" v-for="(item, index) in selectedTrip.activities">
-                <v-card color="white" width="70%" :title="cardTitle[index]" subtitle="Du 15/04/2023 au 23/04/2023"
+                <v-card color="white" width="70%" :title="cardTitle[index]" :subtitle="`Du ${new Date(selectedTrip.start_date).toLocaleDateString()} au ${new Date(selectedTrip.end_date).toLocaleDateString()}`"
                     style="border-radius: 40px; margin-bottom: 3%">
                     <div style="display: flex; flex-direction: row;">
                         <img :src="cardAnimation[index]" class="animation" />
@@ -48,7 +48,7 @@
                                         indeterminate></v-progress-linear>
                                 </template>
 
-                                <v-img cover height="100" :src=item.image></v-img>
+                                <v-img cover height="100" :src=item.image_url></v-img>
 
                                 <v-card-item>
                                     <v-card-title class="result-card-title">{{ item.name }}</v-card-title>
@@ -62,7 +62,7 @@
 
                                 <v-card-text>
                                     <v-row align="center" class="mx-0">
-                                        <v-rating :model-value=item.rate color="amber" density="compact"
+                                        <v-rating :model-value=item.rating color="amber" density="compact"
                                             half-increments readonly size="small"></v-rating>
                                         <div class="text-grey ms-4">
                                             {{ this.rating }}
