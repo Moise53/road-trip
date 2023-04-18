@@ -14,7 +14,7 @@ jobs:
       uses: easingthemes/ssh-deploy@v2.1.4
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
-        REMOTE_HOST: ec2-107-20-101-79.compute-1.amazonaws.com
+        REMOTE_HOST: ec2-54-158-69-142.compute-1.amazonaws.com
         REMOTE_USER: ubuntu
         SOURCE: "./server"
         TARGET: "/home/ubuntu/app/backend"
@@ -39,6 +39,6 @@ jobs:
         env:
           SSH_USER: ubuntu
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: ec2-107-20-101-79.compute-1.amazonaws.com
+          SSH_HOST: ec2-54-158-69-142.compute-1.amazonaws.com
       - name: Build and Run App
         run: ssh staging 'cd /home/ubuntu/app/backend/server; npm install; prisma generate; npm run dev'
