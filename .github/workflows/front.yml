@@ -1,0 +1,44 @@
+name: Node Github CI to Deploy Front on AWS Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: ssh deploy on aws ec2
+      uses: easingthemes/ssh-deploy@v2.1.4
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
+        REMOTE_HOST: ec2-107-20-101-79.compute-1.amazonaws.com
+        REMOTE_USER: ubuntu
+        SOURCE: "./client"
+        TARGET: "/home/ubuntu/app/frontend"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ubuntu
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ec2-107-20-101-79.compute-1.amazonaws.com
+      - name: Build and Run App
+        run: ssh staging 'cd /home/ubuntu/app/backend/client; npm install ; npm run dev'
